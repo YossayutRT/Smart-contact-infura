@@ -1,7 +1,7 @@
 // ===== ตั้งค่า Infura (Sepolia) =====
 const INFURA_URL = "https://sepolia.infura.io/v3/ed9940e3c90049c7b4edc1ee569ec239";
 
-const PRIVATE_KEY = "0x6124E88b9DBE3c7b3F1e53686224d44668C65933";
+const PRIVATE_KEY = "#";
 
 const CONTRACT_ADDRESS = "0x98F044c4771BC95537BD6Cae8b058f47bb050B83";
 
@@ -188,14 +188,20 @@ function confirmAllTransaction() {
 // ===== เชื่อมต่อผ่าน Infura (HttpProvider) =====
 async function connect() {
   try {
-    if (!/^0x[0-9a-fA-F]{64}$/.test(PRIVATE_KEY)) {
-      throw new Error("PRIVATE_KEY ยังไม่ถูกต้อง ให้ใส่ key 64 หลัก (ขึ้นต้น 0x) ใน app.js");
+    // ตัดช่องว่าง และเติม 0x ให้ถ้าไม่มี
+    let key = PRIVATE_KEY.trim();
+    if (!key.startsWith("0x")) key = "0x" + key;
+    if (key.length !== 66) {
+      throw new Error(`PRIVATE_KEY ยาว ${key.length - 2} ตัว (ต้อง 64 ตัว) ตรวจว่าไม่ใช่ address หรือ Recovery Phrase`);
+    }
+    if (!/^0x[0-9a-fA-F]{64}$/.test(key)) {
+      throw new Error("PRIVATE_KEY มีตัวอักษรที่ไม่ใช่เลขฐาน 16 (0-9, a-f) ตรวจว่าไม่ได้เหลือข้อความเดิมหรือเครื่องหมายแปลกๆ");
     }
 
     web3 = new Web3(new Web3.providers.HttpProvider(INFURA_URL));
 
     web3.eth.accounts.wallet.clear();
-    const acc = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
+    const acc = web3.eth.accounts.privateKeyToAccount(key);
     web3.eth.accounts.wallet.add(acc);
     account = acc.address;
 
