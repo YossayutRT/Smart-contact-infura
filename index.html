@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BankBoo DApp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header class="student">
+      <div>
+        <p class="who">ชื่อ-สกุล: <strong id="studentName">ยศยุต ฤธาทิพย์</strong></p>
+        <p class="who">รหัสนักศึกษา: <strong id="studentId">66033872</strong></p>
+      </div>
+      <button id="connectBtn" class="primary">เชื่อมต่อ Infura</button>
+    </header>
+
+    <h1>BankBoo</h1>
+    <p class="sub">ฝาก ถอน และตรวจสอบยอด ETH ผ่าน Smart Contract (เชื่อมต่อด้วย Infura)</p>
+
+    <section class="status" aria-live="polite">
+      <div><span>กระเป๋า</span><b id="accountText">ยังไม่เชื่อมต่อ</b></div>
+      <div><span>เครือข่าย</span><b id="networkText">-</b></div>
+      <div><span>ETH ในกระเป๋า</span><b id="walletText">-</b></div>
+    </section>
+
+    <section class="balance">
+      <span>ยอดฝากใน BankBoo</span>
+      <p><b id="vaultBalance">-</b> ETH</p>
+      <button id="checkBtn" class="act ghost" disabled>ตรวจสอบยอด</button>
+    </section>
+
+    <section class="form">
+      <label for="amount">จำนวน (ETH)</label>
+      <input id="amount" type="text" inputmode="decimal" placeholder="เช่น 0.01" autocomplete="off">
+      <div class="all-actions">
+        <p>ทำรายการทั้งหมด <span>ต้องยืนยันก่อนส่งรายการ</span></p>
+        <div class="row">
+          <button id="withdrawAllBtn" class="act all-button" type="button" disabled>ถอนทั้งหมด</button>
+        </div>
+      </div>
+      <div class="row">
+        <button id="depositBtn" class="act primary" disabled>ฝาก</button>
+        <button id="withdrawBtn" class="act dark" disabled>ถอน</button>
+      </div>
+    </section>
+
+    <section class="activity">
+      <h2>ประวัติการใช้งาน</h2>
+      <ul id="log"><li class="info">กดเชื่อมต่อ Infura เพื่อเริ่มใช้งาน</li></ul>
+    </section>
+
+    <dialog id="confirmDialog" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
+      <div class="confirm-content">
+        <span class="confirm-eyebrow">ยืนยันรายการ</span>
+        <h2 id="confirmTitle">ทำรายการทั้งหมด?</h2>
+        <p id="confirmMessage"></p>
+        <p class="confirm-amount"><b id="confirmAmount"></b> ETH</p>
+        <div class="row">
+          <button id="cancelAllBtn" class="ghost" type="button">ยกเลิก</button>
+          <button id="confirmAllBtn" class="primary" type="button">ยืนยันและดำเนินการ</button>
+        </div>
+      </div>
+    </dialog>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
